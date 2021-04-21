@@ -35,18 +35,16 @@ public class PageConsoleTestCase extends AbstractTestCase {
 
     /**
      * addPage.
-     *
-     * @throws Exception exception
      */
-    public void addPage() throws Exception {
+    public void addPage() {
         final MockRequest request = mockRequest();
         request.setRequestURI("/console/page/");
         request.setMethod("POST");
         final JSONObject requestJSON = new JSONObject();
         final JSONObject page = new JSONObject();
         requestJSON.put(Page.PAGE, page);
-        page.put(Page.PAGE_TITLE, "黑客派");
-        page.put(Page.PAGE_PERMALINK, "https://hacpai.com");
+        page.put(Page.PAGE_TITLE, "链滴");
+        page.put(Page.PAGE_PERMALINK, "https://ld246.com");
         page.put(Page.PAGE_OPEN_TARGET, "");
         page.put(Page.PAGE_ICON, "");
         request.setJSON(requestJSON);
@@ -57,7 +55,7 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 
     /**
@@ -82,7 +80,7 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 
     /**
@@ -109,7 +107,7 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 
     /**
@@ -131,7 +129,7 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 
     /**
@@ -150,7 +148,7 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 
     /**
@@ -173,6 +171,6 @@ public class PageConsoleTestCase extends AbstractTestCase {
         mockDispatcher(request, response);
 
         final String content = response.getString();
-        Assert.assertTrue(StringUtils.contains(content, "sc\":true"));
+        Assert.assertTrue(StringUtils.contains(content, "code\":0"));
     }
 }

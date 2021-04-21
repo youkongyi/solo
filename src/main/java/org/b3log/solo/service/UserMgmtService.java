@@ -40,9 +40,9 @@ import org.json.JSONObject;
  * User management service.
  *
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @author <a href="https://hacpai.com/member/DASHU">DASHU</a>
- * @author <a href="https://hacpai.com/member/nanolikeyou">nanolikeyou</a>
- * @version 1.1.0.20, Mar 17, 2020
+ * @author <a href="https://ld246.com/member/DASHU">DASHU</a>
+ * @author <a href="https://ld246.com/member/nanolikeyou">nanolikeyou</a>
+ * @version 1.1.0.21, Sep 3, 2020
  * @since 0.4.0
  */
 @Service
@@ -117,7 +117,7 @@ public class UserMgmtService {
                     put("userName", admin.optString(User.USER_NAME)).
                     put("userB3Key", admin.optString(UserExt.USER_B3_KEY));
             requestJSON.put("client", client);
-            final HttpResponse res = HttpRequest.post("https://hacpai.com/user/usite").trustAllCerts(true).
+            final HttpResponse res = HttpRequest.post("https://ld246.com/user/usite").trustAllCerts(true).followRedirects(true).
                     connectionTimeout(3000).timeout(7000).header("User-Agent", Solos.USER_AGENT).
                     body(requestJSON.toString()).send();
             if (200 != res.statusCode()) {
@@ -125,13 +125,12 @@ public class UserMgmtService {
             }
             res.charset("UTF-8");
             final JSONObject result = new JSONObject(res.bodyText());
-            if (0 != result.optInt(Keys.STATUS_CODE)) {
+            if (0 != result.optInt(Keys.CODE)) {
                 return;
             }
             usite = result.optJSONObject(Common.DATA);
         } catch (final Exception e) {
             LOGGER.log(Level.ERROR, "Gets usite failed", e);
-
             return;
         }
 
@@ -146,8 +145,6 @@ public class UserMgmtService {
             optionMgmtService.addOrUpdateOption(usiteOpt);
         } catch (final Exception e) {
             LOGGER.log(Level.ERROR, "Updates usite option failed", e);
-
-            return;
         }
     }
 

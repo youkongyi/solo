@@ -38,7 +38,6 @@ import org.b3log.solo.repository.ArticleRepository;
 import org.b3log.solo.service.ArticleQueryService;
 import org.b3log.solo.service.OptionQueryService;
 import org.b3log.solo.util.Markdowns;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,7 +49,7 @@ import java.util.List;
  * Feed (Atom/RSS) processor.
  *
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @author <a href="https://hacpai.com/member/nanolikeyou">nanolikeyou</a>
+ * @author <a href="https://ld246.com/member/nanolikeyou">nanolikeyou</a>
  * @version 3.0.0.0, Feb 9, 2020
  * @since 0.3.1
  */
@@ -109,9 +108,9 @@ public class FeedProcessor {
                     setFilter(new CompositeFilter(CompositeFilterOperator.AND, filters)).
                     addSort(Article.ARTICLE_UPDATED, SortDirection.DESCENDING).setPageCount(1);
             final JSONObject articleResult = articleRepository.get(query);
-            final JSONArray articles = articleResult.getJSONArray(Keys.RESULTS);
+            final List<JSONObject> articles = (List<JSONObject>) articleResult.opt(Keys.RESULTS);
             final boolean isFullContent = "fullContent".equals(preference.getString(Option.ID_C_FEED_OUTPUT_MODE));
-            for (int i = 0; i < articles.length(); i++) {
+            for (int i = 0; i < articles.size(); i++) {
                 final Entry entry = getEntry(articles, isFullContent, i);
                 feed.addEntry(entry);
             }
@@ -124,9 +123,8 @@ public class FeedProcessor {
         }
     }
 
-    private Entry getEntry(final JSONArray articles, final boolean isFullContent, int i)
-            throws JSONException, ServiceException {
-        final JSONObject article = articles.getJSONObject(i);
+    private Entry getEntry(final List<JSONObject> articles, final boolean isFullContent, int i) throws JSONException, ServiceException {
+        final JSONObject article = articles.get(i);
         final Entry ret = new Entry();
         final String title = article.getString(Article.ARTICLE_TITLE);
         ret.setTitle(title);
@@ -167,7 +165,6 @@ public class FeedProcessor {
             final JSONObject preference = optionQueryService.getPreference();
             if (null == preference) {
                 context.sendError(404);
-
                 return;
             }
 
@@ -179,7 +176,7 @@ public class FeedProcessor {
             channel.setLastBuildDate(new Date());
             channel.setLink(Latkes.getServePath());
             channel.setAtomLink(Latkes.getServePath() + "/rss.xml");
-            channel.setGenerator("Solo, v" + Server.VERSION + ", https://solo.b3log.org");
+            channel.setGenerator("Solo, v" + Server.VERSION + ", https://b3log.org/solo");
             final String localeString = preference.getString(Option.ID_C_LOCALE_STRING);
             final String country = Locales.getCountry(localeString).toLowerCase();
             final String language = Locales.getLanguage(localeString).toLowerCase();
@@ -193,9 +190,9 @@ public class FeedProcessor {
                     setFilter(new CompositeFilter(CompositeFilterOperator.AND, filters)).
                     addSort(Article.ARTICLE_UPDATED, SortDirection.DESCENDING);
             final JSONObject articleResult = articleRepository.get(query);
-            final JSONArray articles = articleResult.getJSONArray(Keys.RESULTS);
+            final List<JSONObject> articles = (List<JSONObject>) articleResult.opt(Keys.RESULTS);
             final boolean isFullContent = "fullContent".equals(preference.getString(Option.ID_C_FEED_OUTPUT_MODE));
-            for (int i = 0; i < articles.length(); i++) {
+            for (int i = 0; i < articles.size(); i++) {
                 final Item item = getItem(articles, isFullContent, i);
                 channel.addItem(item);
             }
@@ -208,15 +205,13 @@ public class FeedProcessor {
         }
     }
 
-    private Item getItem(final JSONArray articles, final boolean isFullContent, int i) throws JSONException, ServiceException {
-        final JSONObject article = articles.getJSONObject(i);
+    private Item getItem(final List<JSONObject> articles, final boolean isFullContent, int i) throws JSONException, ServiceException {
+        final JSONObject article = articles.get(i);
         final Item ret = new Item();
         String title = article.getString(Article.ARTICLE_TITLE);
         title = EmojiParser.parseToAliases(title);
         ret.setTitle(title);
-        String description = isFullContent
-                ? article.getString(Article.ARTICLE_CONTENT)
-                : article.optString(Article.ARTICLE_ABSTRACT);
+        String description = isFullContent ? article.getString(Article.ARTICLE_CONTENT) : article.optString(Article.ARTICLE_ABSTRACT);
         description = EmojiParser.parseToAliases(description);
         description = Markdowns.toHTML(description);
         ret.setDescription(description);

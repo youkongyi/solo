@@ -52,10 +52,6 @@
                     <time>
                     ${article.articleCreateDate?string("yyyy-MM-dd")}
                     </time>
-                    &nbsp;
-                    <span data-uvstatcmt="${article.oId}">${article.articleCommentCount}</span> ${commentLabel}
-                    &nbsp;
-                    <span data-uvstaturl="${servePath}${article.articlePermalink}">${article.articleViewCount}</span> ${viewLabel}
                 </div>
             </header>
             <div class="vditor-reset">
@@ -91,7 +87,7 @@
         </#if>
     </nav>
 <#else>
-No Result, Return to <a href="${servePath}">Index</a> or <a href="https://hacpai.com">HacPai</a>.
+No Result, Return to <a href="${servePath}">Index</a> or <a href="https://ld246.com">LianDi</a>.
 </#if>
 </div>
 

@@ -44,7 +44,7 @@ import java.sql.Connection;
  * Abstract test case.
  *
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @version 4.0.0.1, Apr 30, 2020
+ * @version 4.0.0.3, Jul 8, 2020
  * @since 2.9.7
  */
 public abstract class AbstractTestCase {
@@ -70,7 +70,6 @@ public abstract class AbstractTestCase {
      */
     @BeforeClass
     public void beforeClass() throws Exception {
-        System.out.println("before class");
         beanManager = BeanManager.getInstance();
 
         final Connection connection = Connections.getConnection();
@@ -98,8 +97,6 @@ public abstract class AbstractTestCase {
     public void afterClass() {
         final ArticleCache articleCache = beanManager.getReference(ArticleCache.class);
         articleCache.clear();
-        final CommentCache commentCache = beanManager.getReference(CommentCache.class);
-        commentCache.clear();
         final OptionCache optionCache = beanManager.getReference(OptionCache.class);
         optionCache.clear();
         final PageCache pageCache = beanManager.getReference(PageCache.class);
@@ -113,9 +110,7 @@ public abstract class AbstractTestCase {
         final JSONObject requestJSONObject = new JSONObject();
         requestJSONObject.put(User.USER_NAME, "Solo");
         requestJSONObject.put(UserExt.USER_B3_KEY, "pass");
-        System.out.println("before init");
         initService.init(requestJSONObject);
-        System.out.println("after init");
         final ErrorProcessor errorProcessor = beanManager.getReference(ErrorProcessor.class);
         Dispatcher.error("/error/{statusCode}", errorProcessor::showErrorPage);
         final UserQueryService userQueryService = getUserQueryService();
@@ -136,7 +131,7 @@ public abstract class AbstractTestCase {
         cookieJSONObject.put(Keys.TOKEN, "pass:" + random);
         final String cookieValue = Crypts.encryptByAES(cookieJSONObject.toString(), Solos.COOKIE_SECRET);
         request.addCookie(Solos.COOKIE_NAME, cookieValue);
-        request.setAttribute(Keys.TEMAPLTE_DIR_NAME, Option.DefaultPreference.DEFAULT_SKIN_DIR_NAME);
+        request.setAttribute(Keys.TEMPLATE_DIR_NAME, Option.DefaultPreference.DEFAULT_SKIN_DIR_NAME);
     }
 
     /**
@@ -245,15 +240,6 @@ public abstract class AbstractTestCase {
      */
     public PageRepository getPageRepository() {
         return beanManager.getReference(PageRepository.class);
-    }
-
-    /**
-     * Gets comment repository.
-     *
-     * @return comment repository
-     */
-    public CommentRepository getCommentRepository() {
-        return beanManager.getReference(CommentRepository.class);
     }
 
     /**
@@ -416,24 +402,6 @@ public abstract class AbstractTestCase {
      */
     public TagMgmtService getTagMgmtService() {
         return beanManager.getReference(TagMgmtService.class);
-    }
-
-    /**
-     * Gets comment query service.
-     *
-     * @return comment query service
-     */
-    public CommentQueryService getCommentQueryService() {
-        return beanManager.getReference(CommentQueryService.class);
-    }
-
-    /**
-     * Gets comment management service.
-     *
-     * @return comment management service
-     */
-    public CommentMgmtService getCommentMgmtService() {
-        return beanManager.getReference(CommentMgmtService.class);
     }
 
     /**

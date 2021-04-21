@@ -41,7 +41,7 @@ import java.util.stream.Stream;
  * Skin utilities.
  *
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @version 1.2.0.0, Apr 30, 2020
+ * @version 1.2.0.1, Jun 20, 2020
  * @since 0.3.1
  */
 public final class Skins {
@@ -57,7 +57,7 @@ public final class Skins {
     public static final Configuration TEMPLATE_CFG;
 
     static {
-        TEMPLATE_CFG = new Configuration(Configuration.VERSION_2_3_29);
+        TEMPLATE_CFG = new Configuration(Configuration.VERSION_2_3_30);
         TEMPLATE_CFG.setDefaultEncoding("UTF-8");
         try {
             String path = Skins.class.getResource("/").getPath();
@@ -111,7 +111,7 @@ public final class Skins {
      * @return template, returns {@code null} if not found
      */
     public static Template getSkinTemplate(final RequestContext context, final String templateName) {
-        String templateDirName = (String) context.attr(Keys.TEMAPLTE_DIR_NAME);
+        String templateDirName = (String) context.attr(Keys.TEMPLATE_DIR_NAME);
         if (StringUtils.isBlank(templateDirName)) {
             templateDirName = Option.DefaultPreference.DEFAULT_SKIN_DIR_NAME;
         }

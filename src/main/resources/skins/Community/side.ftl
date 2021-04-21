@@ -48,7 +48,7 @@
                     <#list mostUsedCategories as category>
                         <li class="mostUsedTags">
                             <a href="${servePath}/category/${category.categoryURI}">
-                                ${category.categoryTitle}(${category.categoryTagCnt})</a>
+                                ${category.categoryTitle}(${category.categoryPublishedArticleCount})</a>
                         </li>
                     </#list>
                 </ul>
@@ -82,7 +82,7 @@
                     </a>
                     <img onclick="window.location='${link.linkAddress}'"
                          alt="${link.linkTitle}"
-                         src="${faviconAPI}<#list link.linkAddress?split('/') as x><#if x_index=2>${x}<#break></#if></#list>" width="16" height="16" />
+                         src="${link.linkIcon}" width="16" height="16" />
                 </li>
                 </#list>
             </ul>

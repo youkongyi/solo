@@ -72,13 +72,6 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <div id="tabs_comment-list">
-                    <a href="#comment-list">
-                        <span class="icon-cmts"></span> ${commentListLabel}
-                    </a>
-                </div>
-            </li>
             <li id="tools">
                 <div id="tabToolsTitle" onclick="admin.collapseNav(this)">
                     <span class="icon-setting"></span>
@@ -163,10 +156,11 @@
     <div class="fn__clear"></div>
     <div class="footer">
         Powered by <a href="https://b3log.org" target="_blank">B3log 开源</a> •
-        <a href="https://solo.b3log.org" target="_blank">Solo</a> ${version}
+        <a href="https://b3log.org/solo" target="_blank">Solo</a> ${version}
     </div>
 </div>
 <#include "admin-label.ftl">
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.8.4/dist/index.min.js"></script>
 <script src="${staticServePath}/js/admin/admin.min.js?${staticResourceVersion}"></script>
 ${plugins}
 <script>

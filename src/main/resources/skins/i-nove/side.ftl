@@ -39,7 +39,7 @@
                     <#list mostUsedCategories as category>
                         <li>
                             <a href="${servePath}/category/${category.categoryURI}">
-                                ${category.categoryTitle}</a> (${category.categoryTagCnt})
+                                ${category.categoryTitle}</a> (${category.categoryPublishedArticleCount})
                         </li>
                     </#list>
                 </ul>
@@ -70,7 +70,7 @@
                 <li>
                     <a rel="friend" href="${link.linkAddress}" title="${link.linkTitle}" target="_blank">
                         <img alt="${link.linkTitle}"
-                             src="${faviconAPI}<#list link.linkAddress?split('/') as x><#if x_index=2>${x}<#break></#if></#list>" width="16" height="16" />
+                             src="${link.linkIcon}" width="16" height="16" />
                         ${link.linkTitle}
                     </a>
                 </li>
